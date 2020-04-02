@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>上传</title>
+  </head>
+  <body>
+    <div>
+      <h2>文件上传</h2>
+      <input id="file" type="file" /><br />
+      <input id="upload" type="submit" value="上传" />
+    </div>
+    <div>
+      <h2>多文件上传</h2>
+      <input id="files" multiple type="file" /><br />
+      <input id="uploads" type="submit" value="上传" />
+    </div>
+    <script>
+      document.getElementById("upload").addEventListener("click", () => {
+        const files = document.getElementById("file").files;
+        const formData = new FormData();
+        formData.append("file", files[0]);
+        formData.append("name", "test");
+        fetch("http://localhost:3000/upload", {
+          method: "POST",
+          body: formData
+        }).then(res => console.log(res));
+      });
+      document.getElementById("uploads").addEventListener("click", () => {
+        const files = document.getElementById("files").files;
+        const formData = new FormData();
+        for (let file of files) {
+          formData.append("files", file, file.name);
+        }
+        formData.append("name", "test");
+        fetch("http://localhost:3000/upload", {
+          method: "POST",
+          body: formData
+        }).then(res => console.log(res));
+      });
+    </script>
+  </body>
+</html>
