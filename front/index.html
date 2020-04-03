@@ -9,6 +9,7 @@
     <div>
       <h2>文件上传</h2>
       <input id="file" type="file" /><br />
+      <img id="preview" style="width: 100px;" /><br />
       <input id="upload" type="submit" value="上传" />
     </div>
     <div>
@@ -17,27 +18,39 @@
       <input id="uploads" type="submit" value="上传" />
     </div>
     <script>
+      document.getElementById("file").addEventListener("change", e => {
+        const target = e.target;
+        if (target.files[0].type.includes("image")) {
+          document.getElementById("preview").src = URL.createObjectURL(
+            target.files[0]
+          );
+        }
+      });
       document.getElementById("upload").addEventListener("click", () => {
         const files = document.getElementById("file").files;
         const formData = new FormData();
         formData.append("file", files[0]);
-        formData.append("name", "test");
+
         fetch("http://localhost:3000/upload", {
           method: "POST",
           body: formData
-        }).then(res => console.log(res));
+        }).then(res => {
+          console.log(res);
+        });
       });
       document.getElementById("uploads").addEventListener("click", () => {
         const files = document.getElementById("files").files;
         const formData = new FormData();
         for (let file of files) {
-          formData.append("files", file, file.name);
+          formData.append("file", file, file.name);
         }
         formData.append("name", "test");
         fetch("http://localhost:3000/upload", {
           method: "POST",
           body: formData
-        }).then(res => console.log(res));
+        }).then(res => {
+          console.log(res);
+        });
       });
     </script>
   </body>
