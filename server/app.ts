@@ -5,7 +5,7 @@ import * as cors from "koa2-cors";
 import { resolve, dirname } from "path";
 import * as fs from "fs";
 
-const port = 3000;
+const port = 8000;
 const host = `http://localhost:${port}`;
 const app = new koa();
 
@@ -45,6 +45,6 @@ app.use(ctx => {
   }
 });
 
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log(`------[Server start port on ${host}]------`);
 });
